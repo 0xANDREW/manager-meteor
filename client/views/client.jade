@@ -1,0 +1,5 @@
+template(name='client_list')
+  a(href='/clients/new') New Client
+
+template(name='client_form')
+  +quickForm collection='CLIENTS' type='insert' id='new_client_form'
