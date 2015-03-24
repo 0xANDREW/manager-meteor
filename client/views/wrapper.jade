@@ -1,4 +1,14 @@
 template(name='wrapper')
+  ul.nav.nav-pills
+    li
+      a(href='/clients') Clients
+    li
+      a(href='/tracker') Time Tracker
+    li
+      a(href='/contracts') Invoices
+    li
+      a(href='/contracts') Contracts
+
   .container-fluid
     +yield
     

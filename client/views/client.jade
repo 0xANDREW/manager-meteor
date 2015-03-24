@@ -1,16 +1,65 @@
 template(name='client_list')
-  a(href='/clients/new') New Client
+  a.btn.btn-primary(href='/clients/new')
+    span.glyphicon.glyphicon-plus
+    span New Client
 
   +each clients
-    .row
+    .row.item-row
       .col-md-2
         a(href='/clients/{{ _id }}') {{ name }}
-      .col-md-2
+      .col-md-1
+        a(href='/clients/{{ _id }}/projects') Projects
+      .col-md-1
         a.delete(href='#') Delete
 
 template(name='client_form')
-  a(href='/clients') Back
-
   +quickForm(collection='CLIENTS' type='method-update' id='client_form'
-    meteormethod='save_client' doc=client resetOnSuccess=false
-    omitFields='projects')
+    meteormethod='save_client' doc=client validation='submit')
+
+template(name='project_list')
+  a.btn.btn-primary(href='/clients/{{ client._id }}/projects/new')
+    span.glyphicon.glyphicon-plus
+    span New Project
+
+  +each projects
+    .row.item-row
+      .col-md-2
+        a(href='/clients/{{ client_id }}/projects/{{ _id }}') {{ name }}
+      .col-md-1
+        a(href='/clients/{{ client_id }}/projects/{{ _id }}/tasks') Tasks
+      .col-md-1
+        a.delete(href='#') Delete
+
+template(name='project_form')
+  a(href='/clients/{{ client._id }}/projects') Back
+
+  // TODO: ghost field values on new
+  +autoForm(collection='PROJECTS' id='project_form' type='method-update'
+    meteormethod='save_project' doc=project validation='submit')
+    +afFieldInput(name='client_id' type='hidden' value=client._id)
+    +afQuickField(name='name')
+    button(type='submit').btn.btn-primary Submit
+
+template(name='task_list')
+  a.btn.btn-primary(href='/clients/{{ client._id }}/projects/{{ project._id }}/tasks/new')
+    span.glyphicon.glyphicon-plus
+    span New Task
+
+  +each tasks
+    .row.item-row
+      .col-md-2
+        a(href='/clients/{{ client_id }}/projects/{{ project_id }}/tasks/{{ _id }}') {{ name }}
+      // .col-md-1
+      //   a(href='/clients/{{ client_id }}/projects/{{ _id }}/tasks') Tasks
+      .col-md-1
+        a.delete(href='#') Delete
+
+template(name='task_form')
+  a(href='/clients/{{ client._id }}/projects/{{ project._id }}/tasks') Back
+
+  // TODO: ghost field values on new
+  +autoForm(collection='TASKS' id='task_form' type='method-update'
+    meteormethod='save_task' doc=task validation='submit')
+    +afFieldInput(name='project_id' type='hidden' value=project._id)
+    +afQuickField(name='name')
+    button(type='submit').btn.btn-primary Submit

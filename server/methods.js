@@ -9,5 +9,13 @@ Meteor.methods({
 
     delete_client: function(id){
         CLIENTS.remove(id);
+    },
+
+    save_project: function(attrs, id){
+        PROJECTS.update(id, attrs, { upsert: true });
+    },
+
+    delete_project: function(id){
+        PROJECTS.remove(id);
     }
 });
