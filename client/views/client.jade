@@ -1,5 +1,16 @@
 template(name='client_list')
   a(href='/clients/new') New Client
 
+  +each clients
+    .row
+      .col-md-2
+        a(href='/clients/{{ _id }}') {{ name }}
+      .col-md-2
+        a.delete(href='#') Delete
+
 template(name='client_form')
-  +quickForm collection='CLIENTS' type='insert' id='new_client_form'
+  a(href='/clients') Back
+
+  +quickForm(collection='CLIENTS' type='method-update' id='client_form'
+    meteormethod='save_client' doc=client resetOnSuccess=false
+    omitFields='projects')

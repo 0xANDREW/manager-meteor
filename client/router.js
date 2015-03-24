@@ -14,10 +14,26 @@ Router.route('/clients', {
     },
 
     data: function(){
-        return CLIENTS.find({});
+        return { clients: CLIENTS.find({}) };
     }
 });
 
 Router.route('/clients/new', {
-    template: 'client_form'
+    template: 'client_form',
+
+    data: function(){
+        return { client: {}};
+    }
+});
+
+Router.route('/clients/:id', {
+    template: 'client_form',
+
+    waitOn: function(){
+        return Meteor.subscribe('clients');
+    },
+
+    data: function(){
+        return { client: CLIENTS.findOne(this.params.id) };
+    }
 });
